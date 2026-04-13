@@ -13,6 +13,30 @@ Este projeto utiliza a arquitetura **RAG (Retrieval-Augmented Generation)** para
 - **LLMs:** Claude 3.5 Sonnet / GPT-4o
 - **API:** FastAPI
 
+## Estrutura das pastas
+├── data/                   # Gestão de Dados (P1)
+│   ├── raw/                # JSON original e PDFs (não subir PDFs pro Git!)
+│   ├── processed/          # Ficheiros .parquet gerados (chunks + metadados)
+│   └── samples/            # Amostra pequena para testes rápidos
+├── src/                    # Código-fonte (A alma do projeto)
+│   ├── ingestion/          # Fase P1: Parsing, Limpeza e Chunking
+│   │   ├── downloader.py   # Script assíncrono para baixar PDFs
+│   │   ├── parser.py       # Extração de texto (PyMuPDF)
+│   │   └── chunker.py      # Lógica de fatiamento do texto
+│   ├── retrieval/          # Fase P2: Vetores e Busca Híbrida
+│   │   ├── vector_db.py    # Configuração do Qdrant e Embeddings
+│   │   └── hybrid_search.py# Lógica de busca (Vetor + BM25)
+│   ├── api/                # Fase P3: Backend e LLM
+│   │   ├── main.py         # FastAPI App
+│   │   └── llm_chain.py    # Prompt Engineering e chamadas OpenAI/Claude
+│   └── utils/              # Funções auxiliares (loggers, formatadores)
+├── tests/                  # Testes Unitários e de Integração
+├── docs/                   # Documentação extra e Relatórios de Benchmark
+├── requirements.txt        # Dependências do projeto
+├── .env.example            # Modelo para chaves de API (OpenAI_KEY, etc.)
+├── .gitignore              # Instruções para ignorar /data/raw e venv
+└── README.md               # Documento principal
+
 ## 📋 Divisão da Equipe (Sprint 12 Dias)
 - **Pessoa 1 (Data Engineer):** Ingestão de dados, Parsing de PDFs e estratégia de Chunking.
 - **Pessoa 2 (Search Engineer):** Indexação vetorial, gestão da Vector Store e Busca Híbrida.
