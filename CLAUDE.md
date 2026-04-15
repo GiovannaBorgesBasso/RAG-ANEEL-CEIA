@@ -6,7 +6,7 @@ Guia de contexto para o agente Claude Code trabalhar no projeto RAG ANEEL: siste
 
 ## Visão Geral do Projeto
 
-Sistema RAG (Retrieval-Augmented Generation) que permite consultas em linguagem natural sobre atos normativos da ANEEL (Resoluções, Portarias, Despachos de 2016), retornando respostas com citação direta da fonte e zero alucinações.
+Sistema RAG (Retrieval-Augmented Generation) que permite consultas em linguagem natural sobre atos normativos da ANEEL (Resoluções, Portarias, Despachos), retornando respostas com citação direta da fonte e zero alucinações.
 
 ---
 

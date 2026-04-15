@@ -334,12 +334,73 @@ main.py (FastAPI)  ──►  POST /query → JSON de resposta
 - **Pessoa 2 (Search Engineer):** Indexação vetorial, gestão da Vector Store e Busca Híbrida.
 - **Pessoa 3 (AI Architect):** Desenvolvimento da API, Prompt Engineering e Avaliação (Benchmark).
 
-## 🔧 Como Executar
-1. Clone o repositório: `git clone ...`
-2. Instale as dependências: `pip install -r requirements.txt`
-3. Configure o arquivo `.env` com suas chaves de API.
-4. Execute a ingestão: `python src/ingestion/parser.py`
-5. Inicie a API: `uvicorn src.api.main:app --reload`
+## ⚙️ Primeiros Passos
+
+### Pré-requisitos
+- Python 3.10+
+- Docker (para o Qdrant local)
+- Chaves de API: OpenAI e Anthropic
+
+### 1. Clonar o repositório
+```bash
+git clone <url-do-repo>
+cd RAG-ANEEL-CEIA
+```
+
+### 2. Criar e activar ambiente virtual
+```bash
+python -m venv venv
+source venv/bin/activate        # Linux/Mac
+venv\Scripts\activate           # Windows
+```
+
+### 3. Instalar dependências
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configurar variáveis de ambiente
+```bash
+cp .env.example.env
+# Abrir .env e preencher com as suas chaves de API
+```
+
+### 5. Processar os metadados JSON _(Pessoa 1)_
+```bash
+python src/limpar_json_aneel.py \
+  --input data/raw/biblioteca_aneel_gov_br_legislacao_2016_metadados.json \
+  --output data/raw/
+# Gera: data/raw/aneel_limpo.json e data/raw/aneel_vigentes.json
+```
+
+### 6. Baixar os PDFs da ANEEL _(Pessoa 1)_
+```bash
+python src/ingestion/downloader.py --input data/raw/aneel_limpo.json
+# Os PDFs são públicos — baixados directo do site da ANEEL
+# Destino: data/raw/*.pdf  (não versionados no Git)
+```
+
+### 7. Extrair texto e gerar chunks _(Pessoa 1)_
+```bash
+python src/ingestion/parser.py
+python src/ingestion/chunker.py
+# Gera: data/processed/chunks.parquet  (não versionado no Git)
+```
+
+### 8. Indexar no Qdrant _(Pessoa 2)_
+```bash
+# Iniciar Qdrant local via Docker
+docker run -p 6333:6333 qdrant/qdrant
+
+# Indexar os chunks
+python src/retrieval/vector_db.py
+```
+
+### 9. Iniciar a API _(Pessoa 3)_
+```bash
+uvicorn src.api.main:app --reload
+# Aceder: http://localhost:8000/docs
+```
 
 ## 📈 Benchmark
 O sistema é avaliado com base em:

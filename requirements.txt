@@ -1,7 +1,12 @@
 aiohttp
-PyMuPDF
-pandas
+anthropic
+fastapi
 langchain
 langchain-openai
+pandas
+pyarrow
+pymupdf
+python-dotenv
 qdrant-client
-fastapi
+tqdm
+uvicorn
